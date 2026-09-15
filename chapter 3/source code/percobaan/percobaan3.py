@@ -1,14 +1,16 @@
-# Example 3.1 Python SVM Classifications
-from sklearn import svm
+# Example 3.3 Python SVM Iris CSV Classifications
+from sklearn import svm, datasets
+import pandas as pd
 
-X = [[170, 70, 10], [180, 80, 12], [170, 65, 8], [160, 55, 7]]
-# Height [cm], Weight [kg], Shoesize [UK]
-y = [0, 0, 1, 1]
-# Gender, 0: Male, 1: Female
+df = pd.read_csv('iris.csv')
+X = df.values[:, :2]
+s = df['species']
+d = dict([(y, x) for x, y in enumerate(sorted(set(s)))])
+y = [d[x] for x in s]
 
 clf = svm.SVC()
 clf.fit(X, y)
 
-# Predict
-p = clf.predict([[160, 60, 7]])
+# Predict the flower for a given Sepal length and width
+p = clf.predict([[5.4, 3.2]])
 print(p)
